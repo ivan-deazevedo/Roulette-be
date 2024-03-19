@@ -8,20 +8,20 @@ import (
 )
 
 type restaurants struct {
-	ID           string `json:"id"`
-	Naam         string `json:"naam"`
-	Omschrijving string `json:"omschrijving"`
+	ID   string `json:"id"`
+	Naam string `json:"naam"`
 }
 
 type opties []restaurants
 
 var data = opties{
-	{ID: "1", Naam: "Subway", Omschrijving: "Broodjes zaak"},
-	{ID: "2", Naam: "Khun Kaew", Omschrijving: "Thais"},
-	{ID: "3", Naam: "Dominos", Omschrijving: "Pizza"},
-	{ID: "4", Naam: "Minh Anh", Omschrijving: "Vietnamees"},
-	{ID: "5", Naam: "Pat's Tosti Bar", Omschrijving: "Broodjes zaak"},
-	{ID: "6", Naam: "Cho Pain", Omschrijving: "Broodjes zaak"},
+	{ID: "1", Naam: "Subway"},
+	{ID: "2", Naam: "Khun Kaew"},
+	{ID: "3", Naam: "Dominos"},
+	{ID: "4", Naam: "Minh Anh"},
+	{ID: "5", Naam: "Pat's Tosti Bar"},
+	{ID: "6", Naam: "Cho Pain"},
+	{ID: "7", Naam: "Enzo's"},
 }
 
 func main() {
@@ -33,9 +33,6 @@ func main() {
 		AllowHeaders:     []string{"Origin"},
 		ExposeHeaders:    []string{"Content-Length"},
 		AllowCredentials: true,
-		AllowOriginFunc: func(origin string) bool {
-			return origin == "http://github.com"
-		},
 	}))
 
 	router.GET("/opties", getOptions)
