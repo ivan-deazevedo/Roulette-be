@@ -1,10 +1,14 @@
 package main
 
 import (
+	"database/sql"
+	"log"
 	"net/http"
+	"os"
 
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
+	_ "github.com/lib/pq"
 )
 
 type restaurants struct {
@@ -25,6 +29,26 @@ var data = opties{
 }
 
 func main() {
+	/* Connectie met de database maken */
+	conString := "postgres://postgres:postgres@localhost/Lunch_app?sslmode=disable"
+
+	logger := log.New(os.Stdout, "", log.Ldate|log.Ltime)
+
+	db, err := sql.Open("postgres", conString)
+	if err != nil {
+		logger.Fatal(err)
+	}
+
+	defer db.Close()
+
+	err = db.Ping()
+	if err != nil {
+		logger.Fatal(err)
+	}
+
+	logger.Printf("database connection pool is established")
+
+	/* opbouw van de api met gebruik van gin statements */
 	router := gin.Default()
 
 	router.Use(cors.New(cors.Config{
