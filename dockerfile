@@ -1,7 +1,8 @@
-FROM golang:1.22
+FROM golang:latest
 
 # Set destination for COPY
 WORKDIR /app
+COPY . .
 
 # Download Go modules
 ADD . /app/
