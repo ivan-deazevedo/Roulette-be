@@ -6,4 +6,5 @@ type RestaurantRepositoryInterface interface {
 	InsertRestaurant(model.PostRestaurant) bool
 	GetAllRestaurants() []model.Restaurant
 	DeleteRestaurant(uint) bool
+	UpdateRestaurant(uint, model.UpdateRestaurant) model.Restaurant
 }

@@ -15,7 +15,7 @@ func NewRestaurantRepository(db *sql.DB) RestaurantRepositoryInterface {
 }
 
 func (r *RestaurantRepository) DeleteRestaurant(id uint) bool {
-	_, err := r.Db.Exec("DELETE FROM restaurants WHERE restaurantid = $1", id)
+	_, err := r.Db.Exec("DELETE FROM restaurants WHERE restaurant_id = $1", id)
 	if err != nil {
 		log.Println(err)
 		return false
@@ -33,14 +33,15 @@ func (r *RestaurantRepository) GetAllRestaurants() []model.Restaurant {
 	if query != nil {
 		for query.Next() {
 			var (
-				id   uint
-				naam string
+				id     uint
+				naam   string
+				teller int
 			)
-			err := query.Scan(&id, &naam)
+			err := query.Scan(&id, &naam, &teller)
 			if err != nil {
 				log.Println(err)
 			}
-			resto := model.Restaurant{Id: id, Naam: naam}
+			resto := model.Restaurant{Id: id, Naam: naam, Teller: teller}
 			restaurants = append(restaurants, resto)
 		}
 	}
@@ -48,7 +49,7 @@ func (r *RestaurantRepository) GetAllRestaurants() []model.Restaurant {
 }
 
 func (r *RestaurantRepository) InsertRestaurant(post model.PostRestaurant) bool {
-	statement, err := r.Db.Prepare("INSERT INTO restaurants(restonaam) VALUES($1)")
+	statement, err := r.Db.Prepare("INSERT INTO restaurants(naam) VALUES($1)")
 	if err != nil {
 		log.Println(err)
 		return false
@@ -61,4 +62,12 @@ func (r *RestaurantRepository) InsertRestaurant(post model.PostRestaurant) bool 
 		return false
 	}
 	return true
+}
+
+func (r *RestaurantRepository) UpdateRestaurant(id uint, post model.UpdateRestaurant) model.Restaurant {
+	_, err := r.Db.Exec("UPDATE restaurants SET picked = $1 WHERE restaurant_id = $2", post.Teller, id)
+	if err != nil {
+		log.Println(err)
+	}
+	return model.Restaurant{}
 }

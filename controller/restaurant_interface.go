@@ -6,4 +6,5 @@ type RestaurantControllerInterface interface {
 	InsertRestaurant(*gin.Context)
 	GetAllRestaurants(*gin.Context)
 	DeleteRestaurant(*gin.Context)
+	UpdateRestaurant(*gin.Context)
 }
