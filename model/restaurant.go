@@ -11,7 +11,7 @@ type PostRestaurant struct {
 }
 
 type RestaurantUri struct {
-	ID uint `uri:"id" binding"required,number"`
+	ID uint `uri:"id" binding:"required,number"`
 }
 
 type UpdateRestaurant struct {
