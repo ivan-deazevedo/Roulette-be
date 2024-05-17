@@ -43,7 +43,25 @@ func (r *RestaurantController) GetAllRestaurants(c *gin.Context) {
 		c.JSON(200, gin.H{"status": "success", "data": get, "msg": "get restaurants successfully"})
 		return
 	} else {
-		c.JSON(500, gin.H{"status": "success", "data": nil, "msg": "restaurants not found"})
+		c.JSON(200, gin.H{"status": "success", "data": nil, "msg": "restaurants not found"})
+		return
+	}
+}
+
+func (r *RestaurantController) GetOneRestaurant(c *gin.Context) {
+	DB := r.Db
+	var uri model.RestaurantUri
+	if err := c.ShouldBindUri(&uri); err != nil {
+		c.JSON(400, gin.H{"status": "failed", "msg": err})
+		return
+	}
+	repo := repository.NewRestaurantRepository(DB)
+	get := repo.GetOneRestaurant(uri.ID)
+	if (get != model.Restaurant{}) {
+		c.JSON(200, gin.H{"status": "success", "data": get, "msg": "get restaurant successfully"})
+		return
+	} else {
+		c.JSON(200, gin.H{"status": "success", "data": nil, "msg": "restaurant not found"})
 		return
 	}
 }
@@ -81,10 +99,10 @@ func (r *RestaurantController) UpdateRestaurant(c *gin.Context) {
 	repository := repository.NewRestaurantRepository(DB)
 	update := repository.UpdateRestaurant(uri.ID, post)
 	if (update != model.Restaurant{}) {
-		c.JSON(200, gin.H{"status": "success", "data": update, "msg": "update manga successfully"})
+		c.JSON(200, gin.H{"status": "success", "data": update, "msg": "update restaurant successfully"})
 		return
 	} else {
-		c.JSON(500, gin.H{"status": "failed", "data": nil, "msg": "update manga failed"})
+		c.JSON(500, gin.H{"status": "failed", "data": nil, "msg": "update restaurant failed"})
 		return
 	}
 }

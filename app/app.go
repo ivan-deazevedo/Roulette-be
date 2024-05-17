@@ -27,8 +27,9 @@ func (a *App) Routes() {
 
 	r.POST("/restaurant", controller.InsertRestaurant)
 	r.GET("/restaurant", controller.GetAllRestaurants)
-	r.DELETE("restaurant/:id", controller.DeleteRestaurant)
-	r.PUT("restaurant/:id", controller.UpdateRestaurant)
+	r.GET("/restaurant/:id", controller.GetOneRestaurant)
+	r.DELETE("/restaurant/:id", controller.DeleteRestaurant)
+	r.PUT("/restaurant/:id", controller.UpdateRestaurant)
 	a.Router = r
 }
 

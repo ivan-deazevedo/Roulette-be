@@ -3,7 +3,7 @@ package model
 type Restaurant struct {
 	Id     uint   `json:"id"`
 	Naam   string `json:"naam"`
-	Teller int    `json:"teller"`
+	Teller uint   `json:"teller"`
 }
 
 type PostRestaurant struct {
@@ -15,5 +15,5 @@ type RestaurantUri struct {
 }
 
 type UpdateRestaurant struct {
-	Teller int `json:"teller"`
+	Teller uint `json:"teller"`
 }

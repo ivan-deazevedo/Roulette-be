@@ -23,8 +23,32 @@ func (r *RestaurantRepository) DeleteRestaurant(id uint) bool {
 	return true
 }
 
+func (r *RestaurantRepository) GetOneRestaurant(id uint) model.Restaurant {
+	query, err := r.Db.Query("SELECT * FROM restaurants WHERE restaurant_id = $1", id)
+	if err != nil {
+		log.Println(err)
+		return model.Restaurant{}
+	}
+	var restaurant model.Restaurant
+	if query != nil {
+		for query.Next() {
+			var (
+				id     uint
+				naam   string
+				teller uint
+			)
+			err := query.Scan(&id, &naam, &teller)
+			if err != nil {
+				log.Println(err)
+			}
+			restaurant = model.Restaurant{Id: id, Naam: naam, Teller: teller}
+		}
+	}
+	return restaurant
+}
+
 func (r *RestaurantRepository) GetAllRestaurants() []model.Restaurant {
-	query, err := r.Db.Query("SELECT * FROM restaurants")
+	query, err := r.Db.Query("SELECT * FROM restaurants ORDER BY picked DESC, restaurant_id ")
 	if err != nil {
 		log.Println(err)
 		return nil
@@ -35,7 +59,7 @@ func (r *RestaurantRepository) GetAllRestaurants() []model.Restaurant {
 			var (
 				id     uint
 				naam   string
-				teller int
+				teller uint
 			)
 			err := query.Scan(&id, &naam, &teller)
 			if err != nil {
@@ -68,6 +92,7 @@ func (r *RestaurantRepository) UpdateRestaurant(id uint, post model.UpdateRestau
 	_, err := r.Db.Exec("UPDATE restaurants SET picked = $1 WHERE restaurant_id = $2", post.Teller, id)
 	if err != nil {
 		log.Println(err)
+		return model.Restaurant{}
 	}
-	return model.Restaurant{}
+	return r.GetOneRestaurant(id)
 }
