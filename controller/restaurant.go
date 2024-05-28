@@ -52,7 +52,7 @@ func (r *RestaurantController) GetOneRestaurant(c *gin.Context) {
 	DB := r.Db
 	var uri model.RestaurantUri
 	if err := c.ShouldBindUri(&uri); err != nil {
-		c.JSON(400, gin.H{"status": "failed", "msg": err})
+		c.JSON(400, gin.H{"status": "failed", "msg": err.Error()})
 		return
 	}
 	repo := repository.NewRestaurantRepository(DB)

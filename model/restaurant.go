@@ -4,10 +4,12 @@ type Restaurant struct {
 	Id     uint   `json:"id"`
 	Naam   string `json:"naam"`
 	Teller uint   `json:"teller"`
+	WebUrl string `json:"weburl"`
 }
 
 type PostRestaurant struct {
-	Naam string `json:"naam"`
+	Naam   string `json:"naam"`
+	WebUrl string `json:"weburl"`
 }
 
 type RestaurantUri struct {
@@ -15,5 +17,6 @@ type RestaurantUri struct {
 }
 
 type UpdateRestaurant struct {
-	Teller uint `json:"teller"`
+	Teller uint   `json:"teller"`
+	WebUrl string `json:"weburl"`
 }

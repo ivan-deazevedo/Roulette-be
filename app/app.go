@@ -21,15 +21,23 @@ func (a *App) CreateConnection() {
 
 func (a *App) Routes() {
 	r := gin.Default()
-	controller := controller.NewRestaurantController(a.DB)
-
 	r.Use(cors.Default())
 
-	r.POST("/restaurant", controller.InsertRestaurant)
-	r.GET("/restaurant", controller.GetAllRestaurants)
-	r.GET("/restaurant/:id", controller.GetOneRestaurant)
-	r.DELETE("/restaurant/:id", controller.DeleteRestaurant)
-	r.PUT("/restaurant/:id", controller.UpdateRestaurant)
+	controllerResto := controller.NewRestaurantController(a.DB)
+	controllerUser := controller.NewUserController(a.DB)
+
+	r.POST("/restaurant", controllerResto.InsertRestaurant)
+	r.GET("/restaurant", controllerResto.GetAllRestaurants)
+	r.GET("/restaurant/:id", controllerResto.GetOneRestaurant)
+	r.DELETE("/restaurant/:id", controllerResto.DeleteRestaurant)
+	r.PUT("/restaurant/:id", controllerResto.UpdateRestaurant)
+
+	r.POST("/user", controllerUser.InsertUser)
+	r.GET("/user", controllerUser.GetAllUsers)
+	r.GET("/user/:id", controllerUser.GetOneUser)
+	r.DELETE("/user/:id", controllerUser.DeleteUser)
+	r.PUT("/user/:id", controllerUser.UpdateUser)
+
 	a.Router = r
 }
 
